@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require_relative "lib/cask_updater"
+
+CONFIG = CaskUpdater::Config.new(
+  token: "codextools",
+  repository: "hereww/codextools",
+  asset_prefix: "ChatGPT-Codex-Tools",
+  extension: "zip",
+  cask_path: File.expand_path("../Casks/codextools.rb", __dir__),
+)
+
+exit CaskUpdater.cli(CONFIG) if __FILE__ == $PROGRAM_NAME
