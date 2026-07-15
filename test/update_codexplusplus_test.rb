@@ -61,6 +61,22 @@ class CodexPlusPlusUpdaterTest < Minitest::Test
     refute_includes rendered, "old-intel"
   end
 
+  def test_authenticates_github_api_without_leaking_token_to_asset_hosts
+    api_headers = CodexPlusPlusUpdater.request_headers(
+      URI("https://api.github.com/repos/example/project/releases/latest"),
+      token: "workflow-token",
+      accept: "application/vnd.github+json",
+    )
+    asset_headers = CodexPlusPlusUpdater.request_headers(
+      URI("https://release-assets.githubusercontent.com/file.dmg"),
+      token: "workflow-token",
+    )
+
+    assert_equal "Bearer workflow-token", api_headers.fetch("Authorization")
+    assert_equal "application/vnd.github+json", api_headers.fetch("Accept")
+    refute asset_headers.key?("Authorization")
+  end
+
   private
 
   def release_json(draft: false, prerelease: false, assets: release_assets)

@@ -71,7 +71,7 @@ module CodexPlusPlusUpdater
     raise UpdateError, "too many redirects for #{url}" if redirects.negative?
 
     uri = URI(url)
-    request = Net::HTTP::Get.new(uri, "Accept" => "application/vnd.github+json", "User-Agent" => USER_AGENT)
+    request = Net::HTTP::Get.new(uri, request_headers(uri, accept: "application/vnd.github+json"))
     response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: uri.scheme == "https") do |http|
       http.request(request)
     end
@@ -92,7 +92,7 @@ module CodexPlusPlusUpdater
     raise UpdateError, "too many redirects for #{url}" if redirects.negative?
 
     uri = URI(url)
-    request = Net::HTTP::Get.new(uri, "User-Agent" => USER_AGENT)
+    request = Net::HTTP::Get.new(uri, request_headers(uri))
     Net::HTTP.start(uri.hostname, uri.port, use_ssl: uri.scheme == "https") do |http|
       http.request(request) do |response|
         case response
@@ -114,6 +114,17 @@ module CodexPlusPlusUpdater
     raise UpdateError, "redirect from #{url} has no location" unless location
 
     URI.join(url, location).to_s
+  end
+
+  def request_headers(uri, token: github_token, accept: nil)
+    headers = { "User-Agent" => USER_AGENT }
+    headers["Accept"] = accept if accept
+    headers["Authorization"] = "Bearer #{token}" if token && uri.hostname == "api.github.com"
+    headers
+  end
+
+  def github_token
+    ENV["GITHUB_TOKEN"] || ENV["HOMEBREW_GITHUB_API_TOKEN"]
   end
 
   def atomic_write(path, content)
