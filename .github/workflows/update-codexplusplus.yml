@@ -18,7 +18,7 @@ jobs:
 
     steps:
       - name: Check out tap
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Update cask metadata
         run: ruby script/update-codexplusplus
