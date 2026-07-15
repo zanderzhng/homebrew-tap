@@ -13,3 +13,4 @@ brew tap zanderzhng/tap
 | Package | Type | Install |
 | --- | --- | --- |
 | [CodexPlusPlus](https://github.com/BigPizzaV3/CodexPlusPlus) | Cask | `brew install --cask zanderzhng/tap/codexplusplus` |
+| [CodexTools](https://github.com/hereww/codextools) | Cask | `brew install --cask zanderzhng/tap/codextools` |
