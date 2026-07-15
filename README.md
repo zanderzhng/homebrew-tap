@@ -14,12 +14,21 @@ Install them with:
 
 ```bash
 brew tap zanderzhng/tap
-brew install --cask --no-quarantine zanderzhng/tap/codexplusplus
+brew install --cask zanderzhng/tap/codexplusplus
 ```
 
 Upstream currently describes its macOS apps as unsigned and unnotarized.
-`--no-quarantine` explicitly bypasses Apple's quarantine check, so review and
-trust the upstream project before using that option.
+If macOS blocks either app, review and trust the upstream project before
+manually removing Apple's quarantine attribute. For Homebrew's default app
+directory:
+
+```bash
+xattr -dr com.apple.quarantine "/Applications/Codex++.app"
+xattr -dr com.apple.quarantine "/Applications/Codex++ 管理工具.app"
+```
+
+Use your configured cask app directory instead of `/Applications` when it
+differs.
 
 ## Updates
 

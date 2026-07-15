@@ -23,7 +23,7 @@ cask "codexplusplus" do
 
   caveats <<~EOS
     The upstream macOS apps are currently unsigned and unnotarized.
-    Review the upstream project before installing, then use Homebrew's
-    explicit --no-quarantine option if you accept that risk.
+    If macOS blocks them, review the upstream project before manually removing
+    the com.apple.quarantine attribute from the installed app bundles.
   EOS
 end
