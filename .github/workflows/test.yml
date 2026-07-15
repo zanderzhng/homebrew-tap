@@ -18,13 +18,13 @@ jobs:
         uses: actions/checkout@v5
 
       - name: Run updater tests
-        run: ruby test/update_codexplusplus_test.rb
+        run: ruby test/cask_updater_test.rb
 
       - name: Register checkout as a tap
         run: brew tap zanderzhng/tap "file://$GITHUB_WORKSPACE" --custom-remote
 
       - name: Check cask style
-        run: brew style --cask zanderzhng/tap/codexplusplus
+        run: brew style --cask zanderzhng/tap/codexplusplus zanderzhng/tap/codextools
 
       - name: Audit cask
-        run: brew audit --cask --online zanderzhng/tap/codexplusplus
+        run: brew audit --cask --online zanderzhng/tap/codexplusplus zanderzhng/tap/codextools
