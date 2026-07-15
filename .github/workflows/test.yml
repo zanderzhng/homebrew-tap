@@ -1,0 +1,28 @@
+name: Test
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: macos-15
+
+    steps:
+      - name: Check out tap
+        uses: actions/checkout@v4
+
+      - name: Run updater tests
+        run: ruby test/update_codexplusplus_test.rb
+
+      - name: Register checkout as a tap
+        run: brew tap zanderzhng/tap "file://$GITHUB_WORKSPACE" --custom-remote
+
+      - name: Check cask style
+        run: brew style --cask zanderzhng/tap/codexplusplus
+
+      - name: Audit cask
+        run: brew audit --cask --online zanderzhng/tap/codexplusplus

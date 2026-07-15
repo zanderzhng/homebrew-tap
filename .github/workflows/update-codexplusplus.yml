@@ -1,0 +1,53 @@
+name: Update CodexPlusPlus
+
+on:
+  schedule:
+    - cron: "17 3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-codexplusplus
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: macos-15
+
+    steps:
+      - name: Check out tap
+        uses: actions/checkout@v4
+
+      - name: Update cask metadata
+        run: ruby script/update-codexplusplus
+
+      - name: Run updater tests
+        run: ruby test/update_codexplusplus_test.rb
+
+      - name: Register checkout as a tap
+        run: brew tap zanderzhng/tap "file://$GITHUB_WORKSPACE" --custom-remote
+
+      - name: Copy updated cask into local tap
+        run: cp Casks/codexplusplus.rb "$(brew --repository zanderzhng/tap)/Casks/codexplusplus.rb"
+
+      - name: Check cask style
+        run: brew style --cask zanderzhng/tap/codexplusplus
+
+      - name: Audit cask
+        run: brew audit --cask --online zanderzhng/tap/codexplusplus
+
+      - name: Commit update
+        run: |
+          if git diff --quiet -- Casks/codexplusplus.rb; then
+            echo "Cask is already current."
+            exit 0
+          fi
+
+          version="$(ruby -ne 'puts $1 if $_ =~ /^\s*version "([^"]+)"$/' Casks/codexplusplus.rb)"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- Casks/codexplusplus.rb
+          git commit -m "chore: update codexplusplus to ${version}"
+          git push
