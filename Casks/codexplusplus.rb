@@ -16,6 +16,8 @@ cask "codexplusplus" do
     strategy :github_latest
   end
 
+  depends_on macos: ">= :monterey"
+
   app "Codex++.app"
   app "Codex++ 管理工具.app"
 
