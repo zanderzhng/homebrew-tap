@@ -48,13 +48,13 @@ module CodexPlusPlusUpdater
   def render(cask, release, checksums)
     rendered = replace_once(
       cask,
-      /^\s*version ".*"$/,
+      /^[ \t]*version ".*"$/,
       %(  version "#{release.fetch(:version)}"),
       "version",
     )
     replace_once(
       rendered,
-      /^\s*sha256 arm:\s*".*",\n\s*intel:\s*".*"$/,
+      /^[ \t]*sha256 arm:[ \t]*".*",\n[ \t]*intel:[ \t]*".*"$/,
       %(  sha256 arm:   "#{checksums.fetch(:arm)}",\n         intel: "#{checksums.fetch(:intel)}"),
       "architecture checksums",
     )
@@ -140,7 +140,7 @@ module CodexPlusPlusUpdater
   def run(check: false, api_url: ENV.fetch("CODEXPLUSPLUS_API_URL", API_URL), cask_path: CASK_PATH)
     release = release_from(fetch(api_url))
     cask = File.read(cask_path)
-    current_version = cask[/^\s*version "([^"]+)"$/, 1]
+    current_version = cask[/^[ \t]*version "([^"]+)"$/, 1]
     raise UpdateError, "could not read current cask version" unless current_version
 
     if current_version == release.fetch(:version)

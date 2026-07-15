@@ -7,6 +7,7 @@ load File.expand_path("../script/update-codexplusplus", __dir__)
 class CodexPlusPlusUpdaterTest < Minitest::Test
   CASK = <<~RUBY
     cask "codexplusplus" do
+
       version "1.2.35"
       sha256 arm:   "old-arm",
              intel: "old-intel"
@@ -54,6 +55,7 @@ class CodexPlusPlusUpdaterTest < Minitest::Test
     )
 
     assert_includes rendered, 'version "1.2.36"'
+    assert_includes rendered, "do\n\n  version"
     assert_includes rendered, 'sha256 arm:   "new-arm",'
     assert_includes rendered, 'intel: "new-intel"'
     assert_includes rendered, 'url "https://example.test/v#{version}/app-#{arch}.dmg"'
