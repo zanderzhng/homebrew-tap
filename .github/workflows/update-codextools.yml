@@ -2,7 +2,7 @@ name: Update CodexTools
 
 on:
   schedule:
-    - cron: "47 3 * * *"
+    - cron: "15 1 * * *"
   workflow_dispatch:
 
 permissions:
