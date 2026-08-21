@@ -1,9 +1,9 @@
 cask "codextools" do
   arch arm: "arm64", intel: "x64"
 
-  version "1.2.8"
-  sha256 arm:   "9ae23571da3c909a7876355205fb455a19551f0bb923a9ba9ecff33be46290fc",
-         intel: "0c5bd42d2407fce435479481d5cade1adbff9d01e2b5115b36f25bdeebd74085"
+  version "1.2.9"
+  sha256 arm:   "cc3a16961ffe8686ff56c69d61f8c999d0da4b972b0b0344a566378eaa4b66ff",
+         intel: "d914aff197793b8bc99a9bdab088bb9087e888aee7c26d273443cb60b7f8dab1"
 
   url "https://github.com/hereww/codextools/releases/download/v#{version}/ChatGPT-Codex-Tools-#{version}-macos-#{arch}.zip"
   name "ChatGPT Codex Tools"
