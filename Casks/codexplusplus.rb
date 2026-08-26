@@ -1,9 +1,9 @@
 cask "codexplusplus" do
   arch arm: "arm64", intel: "x64"
 
-  version "1.2.52"
-  sha256 arm:   "6dfd2f0b79006b9b52f5b23e27bfe6ba4c9259ae6f78b03b56fc59c4bc989f47",
-         intel: "cd57cc05215873364f3db638d3b23981e8094bc3efd1dce52cb2661ad0998e41"
+  version "1.2.54"
+  sha256 arm:   "209f8478b3daac78a183d4e937e6e42c324a29bf6d58f7fdf59aaa396a67a411",
+         intel: "f7fc85b8423afb5e74360e019d70fc2b02a3c2f419ff1f080fbd7aaed726a884"
 
   url "https://github.com/BigPizzaV3/CodexPlusPlus/releases/download/v#{version}/CodexPlusPlus-#{version}-macos-#{arch}.dmg"
   name "Codex++"
