@@ -21,14 +21,14 @@ cask "codextools" do
   app "ChatGPT-Codex-Tools-#{version}-macos-#{arch}/ChatGPT Codex.app"
   app "ChatGPT-Codex-Tools-#{version}-macos-#{arch}/ChatGPT Codex 管理工具.app"
 
-  postflight do
-    system_command "/usr/bin/xattr",
-                   args: [
-                     "-dr",
-                     "com.apple.quarantine",
-                     "#{appdir}/ChatGPT Codex.app",
-                     "#{appdir}/ChatGPT Codex 管理工具.app",
-                   ]
+  postflight_steps do
+    run "/usr/bin/xattr",
+        args: [
+          "-dr",
+          "com.apple.quarantine",
+          "{{appdir}}/ChatGPT Codex.app",
+          "{{appdir}}/ChatGPT Codex 管理工具.app",
+        ]
   end
 
   caveats <<~EOS

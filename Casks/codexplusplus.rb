@@ -21,14 +21,14 @@ cask "codexplusplus" do
   app "Codex++.app"
   app "Codex++ 管理工具.app"
 
-  postflight do
-    system_command "/usr/bin/xattr",
-                   args: [
-                     "-dr",
-                     "com.apple.quarantine",
-                     "#{appdir}/Codex++.app",
-                     "#{appdir}/Codex++ 管理工具.app",
-                   ]
+  postflight_steps do
+    run "/usr/bin/xattr",
+        args: [
+          "-dr",
+          "com.apple.quarantine",
+          "{{appdir}}/Codex++.app",
+          "{{appdir}}/Codex++ 管理工具.app",
+        ]
   end
 
   caveats <<~EOS
