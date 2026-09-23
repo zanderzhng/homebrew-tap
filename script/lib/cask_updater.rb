@@ -15,6 +15,7 @@ module CaskUpdater
     :token,
     :repository,
     :asset_prefix,
+    :asset_template,
     :extension,
     :cask_path,
     keyword_init: true,
@@ -24,6 +25,8 @@ module CaskUpdater
     end
 
     def asset_name(version, architecture)
+      return format(asset_template, version: version, architecture: architecture) if asset_template
+
       "#{asset_prefix}-#{version}-macos-#{architecture}.#{extension}"
     end
   end

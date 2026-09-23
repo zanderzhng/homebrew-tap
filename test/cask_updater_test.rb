@@ -19,6 +19,13 @@ class CaskUpdaterTest < Minitest::Test
     extension: "zip",
     cask_path: "/tmp/codextools.rb",
   )
+  PEBREL = CaskUpdater::Config.new(
+    token: "pebrel",
+    repository: "Kuddev/pebrel",
+    asset_template: "Pebrel-v%<version>s-macos-%<architecture>s-preview.dmg",
+    extension: "dmg",
+    cask_path: "/tmp/pebrel.rb",
+  )
   CASK = <<~RUBY
     cask "example" do
 
@@ -43,6 +50,29 @@ class CaskUpdaterTest < Minitest::Test
     assert_equal "1.2.5", release.fetch(:version)
     assert_equal "https://example.test/arm.zip", release.dig(:assets, :arm)
     assert_equal "https://example.test/intel.zip", release.dig(:assets, :intel)
+  end
+
+  def test_parses_pebrel_preview_dmg_assets
+    release = CaskUpdater.release_from(
+      release_json(
+        PEBREL,
+        assets: [
+          {
+            name: "Pebrel-v1.2.5-macos-arm64-preview.dmg",
+            browser_download_url: "https://example.test/arm.dmg",
+          },
+          {
+            name: "Pebrel-v1.2.5-macos-x64-preview.dmg",
+            browser_download_url: "https://example.test/intel.dmg",
+          },
+        ],
+      ),
+      PEBREL,
+    )
+
+    assert_equal "1.2.5", release.fetch(:version)
+    assert_equal "https://example.test/arm.dmg", release.dig(:assets, :arm)
+    assert_equal "https://example.test/intel.dmg", release.dig(:assets, :intel)
   end
 
   def test_rejects_draft_and_prerelease_releases

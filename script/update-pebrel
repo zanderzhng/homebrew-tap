@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require_relative "lib/cask_updater"
+
+CONFIG = CaskUpdater::Config.new(
+  token: "pebrel",
+  repository: "Kuddev/pebrel",
+  asset_template: "Pebrel-v%<version>s-macos-%<architecture>s-preview.dmg",
+  extension: "dmg",
+  cask_path: File.expand_path("../Casks/pebrel.rb", __dir__),
+)
+
+exit CaskUpdater.cli(CONFIG) if __FILE__ == $PROGRAM_NAME

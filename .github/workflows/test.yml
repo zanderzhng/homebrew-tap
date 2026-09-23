@@ -24,7 +24,7 @@ jobs:
         run: brew tap zanderzhng/tap "file://$GITHUB_WORKSPACE" --custom-remote
 
       - name: Check cask style
-        run: brew style --cask zanderzhng/tap/codexplusplus zanderzhng/tap/codextools
+        run: brew style --cask zanderzhng/tap/codexplusplus zanderzhng/tap/codextools zanderzhng/tap/pebrel
 
       - name: Audit cask
-        run: brew audit --cask --online zanderzhng/tap/codexplusplus zanderzhng/tap/codextools
+        run: brew audit --cask --online zanderzhng/tap/codexplusplus zanderzhng/tap/codextools zanderzhng/tap/pebrel
