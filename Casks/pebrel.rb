@@ -1,9 +1,9 @@
 cask "pebrel" do
   arch arm: "arm64", intel: "x64"
 
-  version "2.2.2"
-  sha256 arm:   "2658e970643de72258cc483f0d2f0cda0f125298fe3b2871ced1b0f36542c84b",
-         intel: "783ef14e8454c67d94c0231166e18270bf22711139db05456efc4e828d6dc48e"
+  version "2.3.0"
+  sha256 arm:   "52c25b9fa86a7d0fbd87ccea00525453f8616c11c4469f6fad00ba85736ba8e9",
+         intel: "bfc8f49771a3bb2b2241c5fb61c0b6e31aee752d009eb1da7b3dc782f20f2282"
 
   url "https://github.com/Kuddev/pebrel/releases/download/v#{version}/Pebrel-v#{version}-macos-#{arch}-preview.dmg"
   name "Pebrel"
