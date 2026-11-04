@@ -23,6 +23,9 @@ jobs:
       - name: Register checkout as a tap
         run: brew tap zanderzhng/tap "file://$GITHUB_WORKSPACE" --custom-remote
 
+      - name: Trust this tap
+        run: brew trust zanderzhng/tap
+
       - name: Check cask style
         run: brew style --cask zanderzhng/tap/codexplusplus zanderzhng/tap/codextools zanderzhng/tap/pebrel
 

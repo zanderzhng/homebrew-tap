@@ -44,6 +44,20 @@ class CaskUpdaterTest < Minitest::Test
     assert_equal "https://example.test/intel.dmg", release.dig(:assets, :intel)
   end
 
+  def test_production_codexplusplus_config_accepts_universal_release
+    load File.expand_path("../script/update-codexplusplus", __dir__)
+    assets = [{
+      name: "CodexPlusPlus-1.2.5-macos-universal.dmg",
+      browser_download_url: "https://example.test/universal.dmg",
+    }]
+    release = CaskUpdater.release_from(release_json(CONFIG, assets: assets), CONFIG)
+
+    assert_equal "1.2.5", release.fetch(:version)
+    assert_equal "https://example.test/universal.dmg", release.dig(:assets, :arm)
+    assert_equal release.dig(:assets, :arm), release.dig(:assets, :intel)
+    assert_includes File.read(CONFIG.cask_path), "macos-universal.dmg"
+  end
+
   def test_parses_exact_codextools_zip_assets
     release = CaskUpdater.release_from(release_json(CODEXTOOLS), CODEXTOOLS)
 
@@ -108,6 +122,18 @@ class CaskUpdaterTest < Minitest::Test
     assert_includes rendered, 'url "https://example.test/v#{version}/app-#{arch}.zip"'
     refute_includes rendered, "old-arm"
     refute_includes rendered, "old-intel"
+  end
+
+  def test_renders_a_universal_cask_with_a_single_checksum
+    cask = CASK.sub(/sha256 arm:.*\n\s*intel:.*$/, 'sha256 "old-universal"')
+    release = { version: "2.2.1" }
+    rendered = CaskUpdater.render(cask, release, arm: "universal", intel: "universal")
+
+    assert_includes rendered, 'sha256 "universal"'
+    refute_includes rendered, "sha256 arm:"
+    assert_raises(CaskUpdater::UpdateError) do
+      CaskUpdater.render(cask, release, arm: "one", intel: "two")
+    end
   end
 
   def test_authenticates_github_api_without_leaking_token_to_asset_hosts

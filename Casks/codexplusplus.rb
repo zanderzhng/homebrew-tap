@@ -1,11 +1,8 @@
 cask "codexplusplus" do
-  arch arm: "arm64", intel: "x64"
+  version "2.2.1"
+  sha256 "91adc23d42a1f7fd642d153876b3ade7de66a25afd4a54cee828bdd578fbc49c"
 
-  version "1.5.2"
-  sha256 arm:   "008b6fdc07a719eeba67d3988a4f264a9c4eeee3108a85af6bd0ed870a5383c7",
-         intel: "5c13508a7224c5406df1b9408f6350905c3ef86efd1d51c1723131a2b8221b39"
-
-  url "https://github.com/BigPizzaV3/CodexPlusPlus/releases/download/v#{version}/CodexPlusPlus-#{version}-macos-#{arch}.dmg"
+  url "https://github.com/BigPizzaV3/CodexPlusPlus/releases/download/v#{version}/CodexPlusPlus-#{version}-macos-universal.dmg"
   name "Codex++"
   name "Codex++ 管理工具"
   desc "Launcher and management tool for the Codex desktop app"

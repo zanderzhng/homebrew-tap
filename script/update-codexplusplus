@@ -6,7 +6,7 @@ require_relative "lib/cask_updater"
 CONFIG = CaskUpdater::Config.new(
   token: "codexplusplus",
   repository: "BigPizzaV3/CodexPlusPlus",
-  asset_prefix: "CodexPlusPlus",
+  asset_template: "CodexPlusPlus-%<version>s-macos-universal.dmg",
   extension: "dmg",
   cask_path: File.expand_path("../Casks/codexplusplus.rb", __dir__),
 )

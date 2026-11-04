@@ -25,28 +25,48 @@ jobs:
       - name: Update cask metadata
         run: ruby script/update-codexplusplus
 
+      - name: Detect cask changes
+        id: changes
+        run: |
+          if git diff --quiet -- Casks/codexplusplus.rb; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Run updater tests
         run: ruby test/cask_updater_test.rb
 
       - name: Register checkout as a tap
+        if: steps.changes.outputs.changed == 'true'
         run: brew tap zanderzhng/tap "file://$GITHUB_WORKSPACE" --custom-remote
 
+      - name: Trust this tap
+        if: steps.changes.outputs.changed == 'true'
+        run: brew trust zanderzhng/tap
+
       - name: Copy updated cask into local tap
+        if: steps.changes.outputs.changed == 'true'
         run: cp Casks/codexplusplus.rb "$(brew --repository zanderzhng/tap)/Casks/codexplusplus.rb"
 
       - name: Check cask style
+        if: steps.changes.outputs.changed == 'true'
         run: brew style --cask zanderzhng/tap/codexplusplus
 
       - name: Audit cask
+        if: steps.changes.outputs.changed == 'true'
         run: brew audit --cask --online zanderzhng/tap/codexplusplus
 
       - name: Commit update
+        if: steps.changes.outputs.changed == 'true'
         run: |
           if git diff --quiet -- Casks/codexplusplus.rb; then
             echo "Cask is already current."
             exit 0
           fi
 
+          # Ruby, not the shell, expands $_ and $1 below.
+          # shellcheck disable=SC2016
           version="$(ruby -ne 'puts $1 if $_ =~ /^\s*version "([^"]+)"$/' Casks/codexplusplus.rb)"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"

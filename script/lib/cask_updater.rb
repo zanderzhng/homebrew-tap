@@ -69,6 +69,12 @@ module CaskUpdater
       %(  version "#{release.fetch(:version)}"),
       "version",
     )
+    if cask.match?(/^[ \t]*sha256 ".*"$/)
+      raise UpdateError, "universal cask requires identical architecture checksums" unless checksums.fetch(:arm) == checksums.fetch(:intel)
+
+      return replace_once(rendered, /^[ \t]*sha256 ".*"$/, %(  sha256 "#{checksums.fetch(:arm)}"), "universal checksum")
+    end
+
     replace_once(
       rendered,
       /^[ \t]*sha256 arm:[ \t]*".*",\n[ \t]*intel:[ \t]*".*"$/,
