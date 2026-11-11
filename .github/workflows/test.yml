@@ -27,7 +27,7 @@ jobs:
         run: brew trust zanderzhng/tap
 
       - name: Check cask style
-        run: brew style --cask zanderzhng/tap/codexplusplus zanderzhng/tap/codextools zanderzhng/tap/pebrel
+        run: brew style --cask zanderzhng/tap/codexplusplus zanderzhng/tap/codextools zanderzhng/tap/pebrel zanderzhng/tap/stockbar
 
       - name: Audit cask
-        run: brew audit --cask --online zanderzhng/tap/codexplusplus zanderzhng/tap/codextools zanderzhng/tap/pebrel
+        run: brew audit --cask --online zanderzhng/tap/codexplusplus zanderzhng/tap/codextools zanderzhng/tap/pebrel zanderzhng/tap/stockbar

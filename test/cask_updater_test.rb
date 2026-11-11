@@ -58,6 +58,22 @@ class CaskUpdaterTest < Minitest::Test
     assert_includes File.read(CONFIG.cask_path), "macos-universal.dmg"
   end
 
+  def test_production_stockbar_config_accepts_universal_dmg
+    load File.expand_path("../script/update-stockbar", __dir__)
+    assets = [{
+      name: "Stockbar-v1.2.5.dmg",
+      browser_download_url: "https://example.test/Stockbar-v1.2.5.dmg",
+    }]
+    release = CaskUpdater.release_from(release_json(STOCKBAR_CONFIG, assets: assets), STOCKBAR_CONFIG)
+
+    assert_equal "1.2.5", release.fetch(:version)
+    assert_equal "https://example.test/Stockbar-v1.2.5.dmg", release.dig(:assets, :arm)
+    assert_equal release.dig(:assets, :arm), release.dig(:assets, :intel)
+    rendered = CaskUpdater.render(File.read(STOCKBAR_CONFIG.cask_path), release, arm: "new", intel: "new")
+    assert_includes rendered, 'sha256 "new"'
+    assert_includes rendered, 'Stockbar-v#{version}.dmg'
+  end
+
   def test_parses_exact_codextools_zip_assets
     release = CaskUpdater.release_from(release_json(CODEXTOOLS), CODEXTOOLS)
 

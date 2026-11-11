@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require_relative "lib/cask_updater"
+
+STOCKBAR_CONFIG = CaskUpdater::Config.new(
+  token: "stockbar",
+  repository: "VGEAREN/Stockbar",
+  asset_template: "Stockbar-v%<version>s.dmg",
+  extension: "dmg",
+  cask_path: File.expand_path("../Casks/stockbar.rb", __dir__),
+)
+
+exit CaskUpdater.cli(STOCKBAR_CONFIG) if __FILE__ == $PROGRAM_NAME
