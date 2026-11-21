@@ -1,6 +1,6 @@
 cask "stockbar" do
-  version "1.4.0"
-  sha256 "4f01b6bc121c492e9f29553eb90c53bc24f5e2c68ed30bcc38465601d59daff2"
+  version "1.4.1"
+  sha256 "711717b08f2c9a70b167d78f72bbfef787717bc8d01e4cff7caf486174075181"
 
   url "https://github.com/VGEAREN/Stockbar/releases/download/v#{version}/Stockbar-v#{version}.dmg"
   name "Stockbar"
